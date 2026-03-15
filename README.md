@@ -2,7 +2,7 @@
 
 End-to-end quantitative research pipeline for cross-sectional equity alpha generation using machine learning.
 
-**Project Focus:** Building a complete, rigorous quantitative research workflow with proper temporal validation and honest out-of-sample evaluation.
+**Project Focus:** Building a complete, rigorous quantitative research workflow with proper temporal validation and statistical testing
 
 ---
 
