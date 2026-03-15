@@ -8,7 +8,7 @@ End-to-end quantitative research pipeline for cross-sectional equity alpha gener
 
 ## Overview
 
-This project implements the full quantitative research lifecycle from data collection through portfolio backtesting. The emphasis is on **methodology and pipeline design** rather than optimizing for maximum performance.
+This project implements the full quantitative research pipeline from data collection through portfolio backtesting. The focus is on **methodology and pipeline design**.
 
 **Universe:** 40 large-cap US equities  
 **Period:** 2010-2024  
