@@ -1,12 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+# 1. Constructing Long / Short Portfolio
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# 1. Constructing Long / Short Portfolio
+
 # Determining long and short positions based on ranking of predictions by the model
 
 def construct_portfolio(df, pred_col, top_pct = 0.2, bottom_pct = 0.2):
@@ -40,13 +42,12 @@ def stock_pnl_and_returns(df):
     position_check = df.groupby('date')['position'].sum()
     print(f"Position sum check (should be ~0): {position_check.abs().max():.6f}")
     
-    portfolio_returns = df.groupby('date').agg
-    (
+    portfolio_returns = df.groupby('date').agg(
         {
             'stock_pnl': 'sum',
              'position': lambda x: (x != 0).sum()
         }
-    ).reset_index
+    ).reset_index()
     
     portfolio_returns.columns = ['date', 'gross_return', 'n_positions']
 
@@ -58,7 +59,7 @@ def stock_pnl_and_returns(df):
 
 # Calculate turnover and merge with portfolio returns
 
-def turnover(df):
+def turnover(df, portfolio_returns):
     
     df = df.copy()
     
@@ -74,7 +75,6 @@ def turnover(df):
     
     return portfolio_returns
 
-
 # Adding transaction costs
 
 def apply_transaction_costs(df):
@@ -87,10 +87,11 @@ def apply_transaction_costs(df):
     df['transaction_cost'] = df['turnover'] * cost_per_trade
     df['net_return'] = df['gross_return'] - df['transaction_cost']
     
-    portfolio_returns['cum_gross'] = (1 + portfolio_returns['gross_return']).cumprod()
-    portfolio_returns['cum_net'] = (1 + portfolio_returns['net_return']).cumprod()
+    df['cum_gross'] = (1 + df['gross_return']).cumprod()
+    df['cum_net'] = (1 + df['net_return']).cumprod()
     
-    return portfolio_returns
+    return df
+
 
 
 # Getting all the performance metrics
@@ -99,7 +100,7 @@ def performance_metrics(df, return_col='net_return', freq=52):
     
     df = df.copy()
     
-    ret = returns_df[return_col]
+    ret = df[return_col]
     cum_ret = (1 + ret).cumprod()
     
     mean_ret = ret.mean() * freq
@@ -115,8 +116,8 @@ def performance_metrics(df, return_col='net_return', freq=52):
     # Win rate
     win_rate = (ret > 0).mean()
     
-    avg_turnover = returns_df['turnover'].mean()
-    avg_cost = returns_df['transaction_cost'].mean()
+    avg_turnover = df['turnover'].mean()
+    avg_cost = df['transaction_cost'].mean()
     
     metrics = {
         'total_return': total_return,
@@ -131,6 +132,7 @@ def performance_metrics(df, return_col='net_return', freq=52):
     }
     
     return metrics
+
 
 
 def plots(portfolio_returns):
@@ -183,3 +185,14 @@ def plots(portfolio_returns):
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
     plt.show()
+
+def filter_weekly(df):
+    all_dates = sorted(df['date'].unique())
+    weekly_dates = [all_dates[i] for i in range(0, len(all_dates), 5)]
+    test_weekly = df[df['date'].isin(weekly_dates)].copy()
+
+    print(f"Weekly Rebalancing Setup:")
+    print(f"  Original: {df['date'].nunique()} dates")
+    print(f"  Weekly: {test_weekly['date'].nunique()} dates\n")
+
+    return test_weekly

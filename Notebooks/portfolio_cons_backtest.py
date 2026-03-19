@@ -186,3 +186,13 @@ def plots(portfolio_returns):
     plt.tight_layout()
     plt.show()
 
+def filter_weekly(df):
+    all_dates = sorted(df['date'].unique())
+    weekly_dates = [all_dates[i] for i in range(0, len(all_dates), 5)]
+    test_weekly = df[df['date'].isin(weekly_dates)].copy()
+
+    print(f"Weekly Rebalancing Setup:")
+    print(f"  Original: {df['date'].nunique()} dates")
+    print(f"  Weekly: {test_weekly['date'].nunique()} dates\n")
+
+    return test_weekly
