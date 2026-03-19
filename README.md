@@ -1,14 +1,14 @@
 # ML-Based Long-Short Equity Strategy
 
-End-to-end quantitative research pipeline for cross-sectional equity alpha generation using machine learning.
+End-to-end quantitative research pipeline for developing a cross-sectional equity trading strategy
 
-**Project Focus:** Building a complete, rigorous quantitative research workflow with proper temporal validation and honest out-of-sample evaluation.
+**Project Focus:** Building a complete, rigorous quantitative research workflow with proper temporal validation and statistical testing
 
 ---
 
 ## Overview
 
-This project implements the full quantitative research lifecycle from data collection through portfolio backtesting. The emphasis is on **methodology and pipeline design** rather than optimizing for maximum performance.
+This project implements the full quantitative research pipeline from data collection through portfolio backtesting. The focus is on **methodology and pipeline design**.
 
 **Universe:** 40 large-cap US equities  
 **Period:** 2010-2024  
