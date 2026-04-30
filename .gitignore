@@ -3,7 +3,7 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 
-.practice/
+practice/
 
 .vscode/
 # data
